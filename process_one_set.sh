@@ -9,28 +9,33 @@
 #"RAW_DATA_PATH": "2018-05-15/2018-05-15__12-04-43-833",
 #"UUID": "5716a146-8d3d-4d80-99b9-6cbf95cfedfb",
 
+BETYDB_URL="http://128.196.65.186:8000/bety/"
+BETYDB_KEY="wTtaueVXsUIjtqaxIaaaxsEMM4xHyPYeDZrg8dCD"
+HPC_PATH="/xdisk/ericlyons/big_data/cosi/PhytoOracle_flirIr/"
+
+
 CLEANED_META_DIR="cleanmetadata_out/"
 TIFS_DIR="flir2tif_out/"
 MEANTEMP_DIR="meantemp_out/" 
 #PLOTCLIP_DIR="plotclip_out/"
 #FIELDMOSAIC_DIR="fieldmosaic_out/"
 
-MEANTEMP_WK=${MEANTEMP_DIR}${UUID}"/"
 
-METADATA=${RAW_DATA_PATH}${UUID}"_metadata.json"
-IR_BIN=${RAW_DATA_PATH}${UUID}"_ir.bin"
+METADATA=${HPC_PATH}${RAW_DATA_PATH}${UUID}"_metadata.json"
+IR_BIN=${HPC_PATH}${RAW_DATA_PATH}${UUID}"_ir.bin"
 METADATA_CLEANED=${CLEANED_META_DIR}${UUID}"_metadata_cleaned.json"
 IN_TIF=${TIFS_DIR}${UUID}"_ir.tif"
-#MOSAIC_LIST_FILE=${FIELDMOSAIC_DIR}"filelist.txt"
+MEANTEMP_WK=${HPC_PATH}${MEANTEMP_DIR}${UUID}"/"
+#MOSAIC_LIST_FILE=${HPC_PATH}${FIELDMOSAIC_DIR}"filelist.txt"
 
 HTTP_USER="mcosi"
 HTTP_PASSWORD="CoGe"
 set -e
 
 # Stage the data from HTTP server
-mkdir -p ${RAW_DATA_PATH}
-wget --user ${HTTP_USER} --password ${HTTP_PASSWORD} ${DATA_BASE_URL}${METADATA} -O ${METADATA}
-wget --user ${HTTP_USER} --password ${HTTP_PASSWORD} ${DATA_BASE_URL}${IR_BIN} -O ${IR_BIN}
+#mkdir -p ${RAW_DATA_PATH}
+#wget --user ${HTTP_USER} --password ${HTTP_PASSWORD} ${DATA_BASE_URL}${METADATA} -O ${METADATA}
+#wget --user ${HTTP_USER} --password ${HTTP_PASSWORD} ${DATA_BASE_URL}${IR_BIN} -O ${IR_BIN}
 
 
 # Make a cleaned copy of the metadata
@@ -39,12 +44,12 @@ METADATA=${METADATA}
 WORKING_SPACE=${CLEANED_META_DIR}
 USERID=""
 
-ls ${RAW_DATA_PATH}
+#ls ${RAW_DATA_PATH}
 ls ${METADATA}
 ls "cached_betydb/bety_experiments.json"
 mkdir -p ${WORKING_SPACE}
 BETYDB_LOCAL_CACHE_FOLDER=cached_betydb/ singularity run -B $(pwd):/mnt --pwd /mnt docker://agpipeline/cleanmetadata:2.0 --metadata ${METADATA} --working_space ${WORKING_SPACE} ${SENSOR} ${USERID}
-ls ${CLEANED_META_DIR}
+#ls ${CLEANED_META_DIR}
 ls ${METADATA_CLEANED}
 
 # Convert  bin/RGB image to TIFF format
