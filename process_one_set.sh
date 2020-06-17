@@ -17,7 +17,7 @@ HPC_PATH="/xdisk/ericlyons/big_data/cosi/PhytoOracle_flirIr/"
 CLEANED_META_DIR="cleanmetadata_out/"
 TIFS_DIR="flir2tif_out/"
 MEANTEMP_DIR="meantemp_out/" 
-#PLOTCLIP_DIR="plotclip_out/"
+PLOTCLIP_DIR="plotclip_out/"
 #FIELDMOSAIC_DIR="fieldmosaic_out/"
 
 
@@ -63,18 +63,31 @@ mkdir -p ${WORKING_SPACE}
 singularity run -B $(pwd):/mnt --pwd /mnt docker://agpipeline/flir2tif:2.2 --result print --working_space ${WORKING_SPACE} --metadata ${METADATA} ${IR_BIN}
 ls ${IN_TIF}
 
+
+
+mkdir -p ${HPC_PATH}${PLOTCLIP_DIR}
+
+singularity run -B $(pwd):/mnt --pwd /mnt/ docker://emmanuelgonzalez/plotclip_shp:latest --sensor FlirIrCamera --shape ${HPC_PATH}season10_multi_latlon_geno_up.geojson ${WORKING_SPACE}
+
+tar -cvf ${UUID}_plotclip.tar ${PLOTCLIP_DIR}
+
+#tar -cvf plotclip_out.tar plotclip_out/
+
+#singularity run -B $(pwd):/mnt --pwd /mnt/ docker://cosimichele/po_meantemp:latest -g season10_multi_latlon_geno.geojson plotclip_out/
+
+
 # Extract meantemp data
-IN_TIF=${IN_TIF} 
-METADATA=${METADATA_CLEANED}
-WORKING_SPACE=${MEANTEMP_WK}
-TITLE="title"
-YEAR="year"
-AUTHOR="author"
+#IN_TIF=${IN_TIF} 
+#METADATA=${METADATA_CLEANED}
+#WORKING_SPACE=${MEANTEMP_WK}
+#TITLE="title"
+#YEAR="year"
+#AUTHOR="author"
 
-ls ${IN_TIF}
-ls ${METADATA_CLEANED}
-mkdir -p ${WORKING_SPACE}
+#ls ${IN_TIF}
+#ls ${METADATA_CLEANED}
+#mkdir -p ${WORKING_SPACE}
 
-BETYDB_URL=http://128.196.65.186:8000/bety/ BETYDB_KEY=YUKPF38ZxMB0UOkP6etB9bNOjTjIeWFj0RbNGIg5 singularity run -B $(pwd):/mnt --pwd /mnt docker://agpipeline/meantemp:3.0 --result print --working_space ${WORKING_SPACE} --metadata ${METADATA} --citation_author $AUTHOR --citation_title $TITLE --citation_year ${YEAR} ${IN_TIF}
+#BETYDB_URL=http://128.196.65.186:8000/bety/ BETYDB_KEY=YUKPF38ZxMB0UOkP6etB9bNOjTjIeWFj0RbNGIg5 singularity run -B $(pwd):/mnt --pwd /mnt docker://agpipeline/meantemp:3.0 --result print --working_space ${WORKING_SPACE} --metadata ${METADATA} --citation_author $AUTHOR --citation_title $TITLE --citation_year ${YEAR} ${IN_TIF}
 
 #docker run --rm --mount "src=`pwd`,target=/mnt,type=bind" -e "BETYDB_URL=http://128.196.65.186:8000/bety/" -e "BETYDB_KEY=YUKPF38ZxMB0UOkP6etB9bNOjTjIeWFj0RbNGIg5" agpipeline/meantemp:3.0 --working_space "/mnt" --metadata "/mnt/cleanmetadata_out/46bbef81-0858-4195-b921-05cd8700af47_metadata_cleaned.json" --citation_author "Me Myself" --citation_title "Something that's warm" --citation_year "2020" "/mnt/flir2tif_out/46bbef81-0858-4195-b921-05cd8700af47_ir.tif"
