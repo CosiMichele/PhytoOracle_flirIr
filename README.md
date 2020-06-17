@@ -11,9 +11,9 @@ FlirIr currently uses 3 different transformers for data conversion:
 |Order|Transformer|Process
 |:-:|:-:|:-:|
 1|[cleanmetadata](https://github.com/AgPipeline/moving-transformer-cleanmetadata)|Cleans gantry generated metadata|
-2|[flir2tif]((https://github.com/AgPipeline/moving-transformer-flir2tif)|Converts bin compressed files to tif|
+2|[flir2tif](https://github.com/AgPipeline/moving-transformer-flir2tif)|Converts bin compressed files to tif|
 3|plotclip|clips images to the plot|
-4|[meantemp]((https://github.com/AgPipeline/moving-transformer-meantemp)|Extracts temperature from detected biomass|
+4|[meantemp](https://github.com/AgPipeline/moving-transformer-meantemp)|Extracts temperature from detected biomass|
 
 #### Data overview
 
