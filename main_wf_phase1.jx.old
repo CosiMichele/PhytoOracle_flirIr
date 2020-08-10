@@ -1,8 +1,11 @@
+  
 {
   "define": {
 
     "CLEANED_META_DIR": "cleanmetadata_out/",
     "TIFS_DIR": "flir2tif_out/",
+    "PLOTCLIP_DIR": "plotclip_out/",
+    "MEANTEMP_DIR": "meantemp_out/",
     
   },
   "rules": [
@@ -21,6 +24,7 @@
       "outputs":
       [ CLEANED_META_DIR + DATA_SET["UUID"] + "_metadata_cleaned.json" for DATA_SET in BUNDLE["DATA_SETS"] ]
       + [ TIFS_DIR + DATA_SET["UUID"] + "_ir.tif" for DATA_SET in BUNDLE["DATA_SETS"] ]
+      + [ DATA_SET["UUID"] + "_plotclip.tar" for DATA_SET in BUNDLE["DATA_SETS"] ]
     } for BUNDLE in BUNDLE_LIST,
   ]
 }
