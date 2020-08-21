@@ -1,12 +1,11 @@
 #!/bin/bash
 
-DATE="2020-02-18"
+DATE="2020-02-05"
 SENSOR="flirIrCamera"
 STITCH_ORTHO_DIR="stitched_ortho_out/"
 PLOTCLIP_DIR="plotclip_out/"
 
 # Phase 1
-module load python/3.8
 python3 gen_files_list.py ${DATE} > raw_data_files.json
 python3 gen_bundles_list.py raw_data_files.json bundle_list.json 5
 mkdir -p bundle/
@@ -19,10 +18,10 @@ python3 split_bundle_list.py  bundle_list.json bundle/
 # Phase 2
 #module load singularity/3.2.1
 
-singularity run -B $(pwd):/mnt --pwd /mnt/ docker://cosimichele/flirfieldplot -d ${DATE} -o ${STITCH_ORTHO_DIR} flir2tif_out/
-singularity run -B $(pwd):/mnt --pwd /mnt/ docker://emmanuelgonzalez/plotclip_geo -sen ${SENSOR} -shp season10_multi_latlon_geno_up.geojson -o ${PLOTCLIP_DIR} ${STITCH_ORTHO_DIR}${DATE}"_ortho_NaN.tif"
-singularity run -B $(pwd):/mnt --pwd /mnt/ docker://emmanuelgonzalez/stitch_plots ${PLOTCLIP_DIR}
-singularity run -B $(pwd):/mnt --pwd /mnt/ docker://cosimichele/po_temp_cv2stats -g season10_multi_latlon_geno_up.geojson -o plot_meantemp_out/ -d ${DATE} ${PLOTCLIP_DIR}
+singularity run -B $(pwd):/mnt --pwd /mnt/ docker://acicarizona/flirfieldplot -d ${DATE} -o ${STITCH_ORTHO_DIR} flir2tif_out/
+singularity run -B $(pwd):/mnt --pwd /mnt/ docker://acicarizona/plotclip_geo -sen ${SENSOR} -shp season10_multi_latlon_geno_up.geojson -o ${PLOTCLIP_DIR} ${STITCH_ORTHO_DIR}${DATE}"_ortho_NaN.tif"
+singularity run -B $(pwd):/mnt --pwd /mnt/ docker://acicarizona/stitch_plots ${PLOTCLIP_DIR}
+singularity run -B $(pwd):/mnt --pwd /mnt/ docker://acicarizona/po_temp_cv2stats -g season10_multi_latlon_geno_up.geojson -o plot_meantemp_out/ -d ${DATE} ${PLOTCLIP_DIR}
 
 #mv *_plotclip.tar plotclip_out/
 #cd plotclip_out/

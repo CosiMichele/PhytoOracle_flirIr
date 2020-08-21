@@ -60,7 +60,7 @@ WORKING_SPACE=${TIFS_DIR}
 #ls ${METADATA_CLEANED}
 mkdir -p ${WORKING_SPACE}
 #/home/u12/cosi/singularity/scripts/run-singularity -B $(pwd):/mnt --pwd /mnt docker://cosimichele/po_flir2tif_s10 -m ${METADATA} ${IR_BIN}
-singularity run -B $(pwd):/mnt --pwd /mnt docker://cosimichele/po_flir2tif_s10 -m ${METADATA} ${IR_BIN}
+singularity run -B $(pwd):/mnt --pwd /mnt docker://acicarizona/po_flir2tif_s10 -m ${METADATA} ${IR_BIN}
 #singularity run -B $(pwd):/mnt --pwd /mnt docker://agpipeline/flir2tif:2.2 --result print --working_space ${WORKING_SPACE} --metadata ${METADATA} ${IR_BIN}
 #ls ${IN_TIF}
 
