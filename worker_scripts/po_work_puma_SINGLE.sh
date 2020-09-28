@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --account=lyons-lab --partition=standard
+#SBATCH --account=windfall --partition=windfall
 #SBATCH --job-name="phytooracle"
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -28,4 +28,5 @@ export PATH=${CCTOOLS_HOME}/bin:$PATH
 
 #cd /xdisk/ericlyons/big_data/egonzalez/PhytoOracle/psII/
 #cd /xdisk/ericlyons/big_data/egonzalez/PhytoOracle/scanner3DTop/
-/home/u12/cosi/cctools-7.1.6-x86_64-centos7/bin/work_queue_factory -T local -M PhytoOracle_FLIR -w 40 -W 90 --workers-per-cycle 10 --cores=1 -t 900
+/home/u12/cosi/cctools-7.1.6-x86_64-centos7/bin/work_queue_worker -M PhytoOracle_FLIR -t 900
+
